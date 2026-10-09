@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
-  ScrollView, //ImageBackground missing
+  ImageBackground, //Added
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -88,20 +89,8 @@ const weatherData: WeatherData[] = [
     ],
     daily: [
       { day: 'Mon', condition: 'Sunny', icon: '☀️', high: 25, low: 16 },
-      {
-        day: 'Tue',
-        condition: 'Partly Cloudy',
-        icon: '🌤️',
-        high: 23,
-        low: 15,
-      },
-      {
-        day: 'Wed',
-        condition: 'Showers',
-        icon: '🌦️',
-        high: 20,
-        low: 14,
-      },
+      { day: 'Tue', condition: 'Partly Cloudy', icon: '🌤️', high: 23, low: 15 },
+      { day: 'Wed', condition: 'Showers', icon: '🌦️', high: 20, low: 14 },
       { day: 'Thu', condition: 'Sunny', icon: '☀️', high: 24, low: 15 },
       { day: 'Fri', condition: 'Sunny', icon: '☀️', high: 26, low: 17 },
     ],
@@ -154,41 +143,11 @@ const weatherData: WeatherData[] = [
       { time: '9 AM', temperature: 18, icon: '🌤️' },
     ],
     daily: [
-      {
-        day: 'Mon',
-        condition: 'Partly Cloudy',
-        icon: '🌤️',
-        high: 20,
-        low: 14,
-      },
-      {
-        day: 'Tue',
-        condition: 'Cloudy',
-        icon: '☁️',
-        high: 18,
-        low: 13,
-      },
-      {
-        day: 'Wed',
-        condition: 'Rain',
-        icon: '🌧️',
-        high: 16,
-        low: 12,
-      },
-      {
-        day: 'Thu',
-        condition: 'Partly Cloudy',
-        icon: '🌤️',
-        high: 19,
-        low: 13,
-      },
-      {
-        day: 'Fri',
-        condition: 'Sunny',
-        icon: '☀️',
-        high: 21,
-        low: 14,
-      },
+      { day: 'Mon', condition: 'Partly Cloudy', icon: '🌤️', high: 20, low: 14 },
+      { day: 'Tue', condition: 'Cloudy', icon: '☁️', high: 18, low: 13 },
+      { day: 'Wed', condition: 'Rain', icon: '🌧️', high: 16, low: 12 },
+      { day: 'Thu', condition: 'Partly Cloudy', icon: '🌤️', high: 19, low: 13 },
+      { day: 'Fri', condition: 'Sunny', icon: '☀️', high: 21, low: 14 },
     ],
     sunrise: '06:18',
     sunset: '18:45',
@@ -239,41 +198,11 @@ const weatherData: WeatherData[] = [
       { time: '9 AM', temperature: 25, icon: '☀️' },
     ],
     daily: [
-      {
-        day: 'Mon',
-        condition: 'Mostly Cloudy',
-        icon: '☁️',
-        high: 28,
-        low: 20,
-      },
-      {
-        day: 'Tue',
-        condition: 'Partly Cloudy',
-        icon: '🌤️',
-        high: 29,
-        low: 21,
-      },
-      {
-        day: 'Wed',
-        condition: 'Showers',
-        icon: '🌦️',
-        high: 27,
-        low: 20,
-      },
-      {
-        day: 'Thu',
-        condition: 'Sunny',
-        icon: '☀️',
-        high: 30,
-        low: 21,
-      },
-      {
-        day: 'Fri',
-        condition: 'Partly Cloudy',
-        icon: '🌤️',
-        high: 28,
-        low: 20,
-      },
+      { day: 'Mon', condition: 'Mostly Cloudy', icon: '☁️', high: 28, low: 20 },
+      { day: 'Tue', condition: 'Partly Cloudy', icon: '🌤️', high: 29, low: 21 },
+      { day: 'Wed', condition: 'Showers', icon: '🌦️', high: 27, low: 20 },
+      { day: 'Thu', condition: 'Sunny', icon: '☀️', high: 30, low: 21 },
+      { day: 'Fri', condition: 'Partly Cloudy', icon: '🌤️', high: 28, low: 20 },
     ],
     sunrise: '05:05',
     sunset: '18:08',
@@ -287,7 +216,7 @@ export default function App() {
   const [selectedCity, setSelectedCity] = useState<string>('Johannesburg');
 
   const selectedWeather = weatherData.find(
-    (weather) => weather.city === selectedCity
+    (weather) => weather.city === selectedCity // Find the weather data for the selected city
   );
 
   if (!selectedWeather) {
@@ -308,16 +237,14 @@ export default function App() {
             key={weather.city}
             style={[
               styles.cityButton,
-              selectedCity === weather.country &&
-                styles.selectedCityButton,
+              selectedCity === weather.city && styles.selectedCityButton, // Apply selected style if this city is selected
             ]}
-            onPress={() => setSelectedCity(weather.country)}
+            onPress={() => setSelectedCity(weather.city)}
           >
             <Text
               style={[
                 styles.cityButtonText,
-                selectedCity === weather.country && //Uses selectedCity === weather.country instead of selectedCity === weather.city
-                  styles.selectedCityButtonText,
+                selectedCity === weather.city && styles.selectedCityButtonText,
               ]}
             >
               {weather.city}
@@ -326,8 +253,8 @@ export default function App() {
         ))}
       </View>
 
-      <ImageBackground //Visible error 1
-        source={selectedWeather.backgroundImage}
+      <ImageBackground
+        source={{ uri: selectedWeather.backgroundImage }}
         style={styles.weatherHero}
         imageStyle={styles.weatherHeroImage}
       >
@@ -342,16 +269,16 @@ export default function App() {
             {selectedWeather.condition}
           </Text>
         </View>
-      </ImageBackground> //Visible error 2
+      </ImageBackground>
 
-      <View style={styles.currentDetails}>
+      <View style={styles.currentDetails}> // Current weather details section
         <WeatherDetail
           label="Feels Like"
           value={`${selectedWeather.feelsLike}°`}
         />
         <WeatherDetail
           label="Humidity"
-          value={`${selectedWeather.feelsLike}%`}
+          value={`${selectedWeather.humidity}%`}
         />
         <WeatherDetail
           label="Wind"
@@ -365,27 +292,22 @@ export default function App() {
           label="Pressure"
           value={`${selectedWeather.pressure} hPa`}
         />
-        <WeatherDetail
-          label="UV Index"
-          value={`${selectedWeather.uvIndex}`}
-        />
+        <WeatherDetail label="UV Index" value={`${selectedWeather.uvIndex}`} />
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>24 Hour Forecast</Text>
 
         <ScrollView
-          horizontal={false}
+          horizontal={true}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.horizontalContent}
         >
-          {selectedWeather.hourly.map((hour) => (
+          {selectedWeather.hourly.map((hour) => ( // Map through the hourly forecast data and display each hour's forecast
             <View key={hour.time} style={styles.hourCard}>
               <Text style={styles.hourTime}>{hour.time}</Text>
               <Text style={styles.forecastIcon}>{hour.icon}</Text>
-              <Text style={styles.hourTemperature}>
-                {selectedWeather.temperature}° //This should be hour.temperature instead of selectedWeather.temperature
-              </Text>
+              <Text style={styles.hourTemperature}>{hour.temperature}°</Text>
             </View>
           ))}
         </ScrollView>
@@ -395,19 +317,19 @@ export default function App() {
         <Text style={styles.sectionTitle}>5 Day Forecast</Text>
 
         <View style={styles.dailyContainer}>
-          {selectedWeather.daily.map((day) => { // Visible error 3
-            <View key={day.day} style={styles.dailyCard}>     
+          {selectedWeather.daily.map((day) => ( // Map through the daily forecast data and display each day's forecast
+            <View key={day.day} style={styles.dailyCard}>
               <Text style={styles.dayName}>{day.day}</Text>
               <Text style={styles.dailyIcon}>{day.icon}</Text>
 
               <View style={styles.dailyTemperatures}>
-                <Text style={styles.highTemperature}>{day.low}°</Text>
-                <Text style={styles.lowTemperature}>{day.high}°</Text>
+                <Text style={styles.highTemperature}>{day.high}°</Text>
+                <Text style={styles.lowTemperature}>{day.low}°</Text>
               </View>
 
               <Text style={styles.conditionText}>{day.condition}</Text>
-            </View>;
-          })}
+            </View>
+          ))}
         </View>
       </View>
 
@@ -417,28 +339,16 @@ export default function App() {
         <View style={styles.sunMoonCard}>
           <WeatherDetail
             label="Sunrise"
-            value={selectedWeather.sunset}
+            value={selectedWeather.sunrise}
           />
-          <WeatherDetail
-            label="Sunset"
-            value={selectedWeather.sunset}
-          />
-          <WeatherDetail
-            label="Moonrise"
-            value={selectedWeather.moonrise}
-          />
-          <WeatherDetail
-            label="Moonset"
-            value={selectedWeather.moonset}
-          />
-          <WeatherDetail
-            label="Moon Phase"
-            value={selectedWeather.moonPhase}
-          />
+          <WeatherDetail label="Sunset" value={selectedWeather.sunset} /> // Display sunrise and sunset times
+          <WeatherDetail label="Moonrise" value={selectedWeather.moonrise} />
+          <WeatherDetail label="Moonset" value={selectedWeather.moonset} />
+          <WeatherDetail label="Moon Phase" value={selectedWeather.moonPhase} />
         </View>
       </View>
 
-      <View style={styles.footer}>
+      <View style={styles.footer}> // Footer section with disclaimer
         <Text style={styles.footerText}>
           Weather information is provided as hardcoded demonstration data.
         </Text>
@@ -456,7 +366,7 @@ function WeatherDetail({ label, value }: WeatherDetailProps) {
   return (
     <View style={styles.detailItem}>
       <Text style={styles.detailLabel}>{label}</Text>
-      <Text style={styles.detailValue}>{label}</Text>
+      <Text style={styles.detailValue}>{value}</Text>
     </View>
   );
 }
@@ -551,7 +461,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   detailItem: {
-    width: '100%',
+    width: '48%',
     paddingVertical: 10,
   },
   detailLabel: {
@@ -607,7 +517,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   dailyCard: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
