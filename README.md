@@ -14,24 +14,17 @@ Readme - Mobile Application
 
 
 ## Links- 
-**GitHub Repository**: https://github.com/Kaeden-Ramcharan/MAST-ice-task-3.git
+**GitHub Repository**: https://github.com/Kaeden-Ramcharan/MAST-ice-task-4.git
 
 ---
 
 ## Project Overview - Introduction
 
-The application is intended to allow a user to:
+The application contains weather information for three cities.
 
-Enter information about an album.
+The user should be able to select a city and view the weather information associated with that city.
 
-Validate the information entered.
-
-Add the album to a favourites collection.
-
-Display the albums in the collection.
-
-Remove an album from the collection.
-
+The supplied application contains hardcoded weather data. The purpose of the task is not to retrieve live weather information.
 The application uses React Native state, objects, arrays, form inputs, validation, and FlatList.
 
 The application was developed to meet the requirements of the assignment, which includes creating a functional mobile application and utilizing GitHub for version control and CI/CD automation using GitHub Actions.
@@ -59,37 +52,38 @@ Expo Go
 ## 3. Error Log
 
 The following errors were identified in the supplied `App.tsx`. Each entry
-describes where the error occurs, what was wrong, why it was wrong, and how
-it was corrected.
+describes where the error occurred, what was wrong, why it affected the
+application, and how it was corrected.
 
 | # | Location | Problem | Error Type | Correction |
 |---|---|---|---|---|
-| 1 | `type Album` | `year` and `rating` were typed as `string`, but `handleSave` assigned `Number(year)` and `Number(rating)` to them. This produced a TypeScript type error and contradicted the intent of the fields. | TypeScript | Changed the type declarations to `year: number` and `rating: number`. |
-| 2 | `<Picker>` – `selectedValue` | Bound to `title` instead of `genre`, so the picker reflected the title field rather than the selected genre. | Logic / State | Changed to `selectedValue={genre}`. |
-| 3 | `<Picker.Item>` inside `genres.map` | Every item's `value` prop was set to `genre` (the state variable) instead of the current genre string, so selecting any option stored the wrong value. | Logic | Changed `value={genre}` to `value={item}`. |
-| 4 | Import statement – `Picker` | Imported `Picker` from `@expo/ui/community/picker`, which is not the standard Expo picker package and is not included in the `expo-template-blank-typescript` template. | Import / Dependency | Installed and imported `Picker` from `@react-native-picker/picker` using `npx expo install @react-native-picker/picker`. |
-| 5 | `<FlatList>` – `keyExtractor` | Used `item.title`, which is not guaranteed to be unique. Two albums with the same title would cause duplicate key warnings and rendering issues. | Runtime | Changed to `item.id`, which is unique. |
+| 1 | Import statement | `ImageBackground` was used in the hero section of the JSX but was not imported from `react-native`. This caused a compile-time error and the application failed to start. | Import / Compile | Added `ImageBackground` to the list of imports from `react-native`. |
+| 2 | City selector (3 places) | The selected-city comparison and the `onPress` handler used `weather.country` instead of `weather.city`. Because all three cities share the same country, no city ever matched the selected state, and clicking a button set the state to `'South Africa'`, which matched no entry. | Logic / State | Changed all three references from `weather.country` to `weather.city`. |
+| 3 | Hourly forecast `.map()` | Each hourly card displayed `selectedWeather.temperature` (the current temperature) instead of the individual hour's temperature, so every card showed the same value. | Logic / Data | Changed to `hour.temperature`. |
+| 4 | 5-day forecast `.map()` | The arrow function used a block body `{ }` without a `return` statement and contained a stray semicolon after `</View>`. As a result, no daily cards were rendered. | Syntax | Changed the block body to a parenthesised expression body `( ... )` and removed the stray semicolon. |
+| 5 | 5-day forecast temperatures | The high temperature displayed `day.low` and the low temperature displayed `day.high`, so the values were swapped. | Logic / Data | Swapped the values so `highTemperature` uses `day.high` and `lowTemperature` uses `day.low`. |
+| 6 | Sun & Moon section | The "Sunrise" row was passed `selectedWeather.sunset` instead of `selectedWeather.sunrise`, causing sunrise and sunset to display the same time. | Logic / Data | Changed the value to `selectedWeather.sunrise`. |
+| 7 | `WeatherDetail` component | The value `<Text>` rendered `{label}` instead of `{value}`, so every detail row displayed its label twice and never displayed the actual data. | Logic | Changed `{label}` to `{value}` in the second `<Text>` element. |
+| 8 | Current details – Humidity | The Humidity row was passed `selectedWeather.feelsLike` instead of `selectedWeather.humidity`, so humidity always matched the feels-like temperature. | Logic / Data | Changed to `selectedWeather.humidity`. |
+| 9 | Hourly forecast `ScrollView` | The hourly `ScrollView` had `horizontal={false}`, causing the hourly cards to stack vertically instead of scrolling horizontally as intended. | Layout / Component Property | Changed to `horizontal={true}`. |
+| 10 | `<ImageBackground>` source | `source` was passed a plain string, but React Native requires an object of the form `{ uri: ... }`. The background image therefore failed to render. | Runtime / Component Property | Changed to `source={{ uri: selectedWeather.backgroundImage }}`. |
+| 11 | `dailyCard` style | `flexDirection: 'column'` contradicted the child styles, which use fixed widths and horizontal rows, indicating the card was intended to be a row. This broke the 5-day forecast layout. | Layout / Style | Changed to `flexDirection: 'row'` and added `alignItems: 'center'`. |
+| 12 | `detailItem` style | `width: '100%'` forced every detail item onto its own line, collapsing the intended two-column grid into a single vertical column. | Layout / Style | Changed to `width: '48%'` so that two items fit per row. |
 
 ---
 
 ## App functionality
 
 ### Purpose:
-The main purpose of this app is to record album information and rate the album. 
+The main purpose of this app is to view the weather for three different cities. 
 
 ### Key Features:
-The album record should contain appropriate information such as:
 
-Album title
+The dashboard should allow the user to view weather information for three different cities.
 
-Artist
+The application should present the weather information in a visually organised interface.
 
-Year
-
-Genre
-
-Rating
-
+The supplied application will contain the data required to display the information.
 
 ---
 
@@ -125,7 +119,7 @@ I used GitHub actions to automate the build and deployment process. This include
 
 ## Screenshots of GitHub Change Log Commits
 
-<img width="1876" height="212" alt="image" src="https://github.com/user-attachments/assets/2ea4a042-b9e5-4910-b6f2-d38be9824e18" />
+<img width="1806" height="696" alt="image" src="https://github.com/user-attachments/assets/196dd578-2069-42b1-a055-68c3fc88bd16" />
 *Caption for screenshot 1: The changelog for 09 August 2026.*
 
 
