@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  ScrollView,
+  ScrollView, //ImageBackground missing
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -316,7 +316,7 @@ export default function App() {
             <Text
               style={[
                 styles.cityButtonText,
-                selectedCity === weather.country &&
+                selectedCity === weather.country && //Uses selectedCity === weather.country instead of selectedCity === weather.city
                   styles.selectedCityButtonText,
               ]}
             >
@@ -384,7 +384,7 @@ export default function App() {
               <Text style={styles.hourTime}>{hour.time}</Text>
               <Text style={styles.forecastIcon}>{hour.icon}</Text>
               <Text style={styles.hourTemperature}>
-                {selectedWeather.temperature}°
+                {selectedWeather.temperature}° //This should be hour.temperature instead of selectedWeather.temperature
               </Text>
             </View>
           ))}
@@ -396,7 +396,7 @@ export default function App() {
 
         <View style={styles.dailyContainer}>
           {selectedWeather.daily.map((day) => { // Visible error 3
-            <View key={day.day} style={styles.dailyCard}>
+            <View key={day.day} style={styles.dailyCard}>     
               <Text style={styles.dayName}>{day.day}</Text>
               <Text style={styles.dailyIcon}>{day.icon}</Text>
 
