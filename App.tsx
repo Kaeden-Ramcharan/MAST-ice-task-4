@@ -326,7 +326,7 @@ export default function App() {
         ))}
       </View>
 
-      <ImageBackground
+      <ImageBackground //Visible error 1
         source={selectedWeather.backgroundImage}
         style={styles.weatherHero}
         imageStyle={styles.weatherHeroImage}
@@ -342,7 +342,7 @@ export default function App() {
             {selectedWeather.condition}
           </Text>
         </View>
-      </ImageBackground>
+      </ImageBackground> //Visible error 2
 
       <View style={styles.currentDetails}>
         <WeatherDetail
@@ -395,7 +395,7 @@ export default function App() {
         <Text style={styles.sectionTitle}>5 Day Forecast</Text>
 
         <View style={styles.dailyContainer}>
-          {selectedWeather.daily.map((day) => {
+          {selectedWeather.daily.map((day) => { // Visible error 3
             <View key={day.day} style={styles.dailyCard}>
               <Text style={styles.dayName}>{day.day}</Text>
               <Text style={styles.dailyIcon}>{day.icon}</Text>
