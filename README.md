@@ -145,8 +145,11 @@ I used GitHub actions to automate the build and deployment process. This include
 
 ## Screenshot of the app working
 
-<img width="325" height="730" alt="image" src="https://github.com/user-attachments/assets/21e72ab3-b094-4368-acf2-9dc1f678390a" />
+<img width="327" height="767" alt="image" src="https://github.com/user-attachments/assets/5ea3a05b-838f-41d7-8ed3-9e4472467970" />
 *Caption for screenshot 6: Application running*
+
+<img width="332" height="767" alt="image" src="https://github.com/user-attachments/assets/385cc6ee-0375-482a-848a-092506586ddb" />
+*Caption for screenshot 7: Application running*
 
 ---
 
